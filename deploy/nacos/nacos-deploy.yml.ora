@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nacos
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nacos
+  template:
+    metadata:
+      labels:
+        app: nacos
+    spec:
+      containers:
+      - env:
+        - name: NACOS_REPLICAS
+          value: "1"
+        - name: MODE
+          value: standalone
+        image: icn.ocir.io/sehubjapacprod/ruoyi:nacos
+        imagePullPolicy: Always
+        name: nacos
+        ports:
+        - containerPort: 8848
+          name: nacos8848
+          protocol: TCP
+        - containerPort: 9848
+          name: nacos9848
+          protocol: TCP
+        - containerPort: 9849
+          name: nacos9849
+          protocol: TCP
+        resources:
+          limits:
+            cpu: "1"
+            memory: 1Gi
+          requests:
+            cpu: 100m
+            memory: 512Mi
+        volumeMounts:
+        - mountPath: /home/nacos/logs
+          name: data-nacos-logs
+      imagePullSecrets:
+      - name: dockersecret
+      volumes:
+      - name: data-nacos-logs
+        persistentVolumeClaim:
+          claimName: data-nacos-logs

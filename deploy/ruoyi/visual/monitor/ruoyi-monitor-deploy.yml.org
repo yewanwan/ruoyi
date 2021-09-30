@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ruoyi-monitor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ruoyi-monitor
+  template:
+    metadata:
+      labels:
+        app: ruoyi-monitor
+    spec:
+      containers:
+      - image: icn.ocir.io/sehubjapacprod/ruoyi:ruoyimonitor
+        imagePullPolicy: Always
+        name: ruoyi-monitor
+        ports:
+        - containerPort: 9100
+          protocol: TCP
+        resources:
+          limits:
+            cpu: "2"
+            memory: 2Gi
+          requests:
+            cpu: 200m
+            memory: 512Mi
+      imagePullSecrets:
+      - name: dockersecret

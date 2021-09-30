@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ruoyi-ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ruoyi-ui
+  template:
+    metadata:
+      labels:
+        app: ruoyi-ui
+    spec:
+      containers:
+      - image: nrt.ocir.io/orasejapan/apmdemo2/ruoyi:ui
+        imagePullPolicy: Always
+        name: ruoyi-ui
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        resources:
+          limits:
+            cpu: "2"
+            memory: 2Gi
+          requests:
+            cpu: 200m
+            memory: 512Mi
+      imagePullSecrets:
+      - name: dockersecret

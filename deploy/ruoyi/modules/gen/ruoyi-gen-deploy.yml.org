@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ruoyi-gen
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ruoyi-gen
+  template:
+    metadata:
+      labels:
+        app: ruoyi-gen
+    spec:
+      containers:
+      - image: icn.ocir.io/sehubjapacprod/ruoyi:ruoyigen
+        imagePullPolicy: Always
+        name: ruoyi-gen
+        ports:
+        - containerPort: 9202
+          protocol: TCP
+        resources:
+          limits:
+            cpu: "2"
+            memory: 2Gi
+          requests:
+            cpu: 200m
+            memory: 512Mi
+      imagePullSecrets:
+      - name: dockersecret

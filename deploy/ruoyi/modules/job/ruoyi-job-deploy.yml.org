@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ruoyi-job
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ruoyi-job
+  template:
+    metadata:
+      labels:
+        app: ruoyi-job
+    spec:
+      containers:
+      - image: icn.ocir.io/sehubjapacprod/ruoyi:ruoyijob
+        imagePullPolicy: Always
+        name: ruoyi-job
+        ports:
+        - containerPort: 9203
+          protocol: TCP
+        resources:
+          limits:
+            cpu: "2"
+            memory: 2Gi
+          requests:
+            cpu: 200m
+            memory: 512Mi
+      imagePullSecrets:
+      - name: dockersecret
